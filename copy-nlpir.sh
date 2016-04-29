@@ -7,8 +7,14 @@ else
 fi
 
 if [ ! -d "${NLPIR_ICTCLAS}" ]; then
-  svn checkout https://github.com/NLPIR-team/NLPIR/trunk/NLPIR%20SDK/NLPIR-ICTCLAS "${NLPIR_ICTCLAS}"
+  echo "checking out NLPIR-ICTCLAS, please wait..."
+  svn checkout https://github.com/NLPIR-team/NLPIR/trunk/NLPIR%20SDK/NLPIR-ICTCLAS/Data "${NLPIR_ICTCLAS}/Data"
+  for platform in ios linux32 linux64 win32 win64; do
+    svn checkout https://github.com/NLPIR-team/NLPIR/trunk/NLPIR%20SDK/NLPIR-ICTCLAS/lib/${platform} "${NLPIR_ICTCLAS}/lib/${platform}"
+  done
 fi
+
+set -e
 
 cp -av "${NLPIR_ICTCLAS}"/Data .
 mkdir -p src/main/resources/{darwin,linux-x86,linux-x86-64,win32-x86,win32-x86-64} 
